@@ -36,8 +36,8 @@ export default function HiraganaChart() {
 
   // Enhanced audio playback
   const playAudio = (character: Character) => {
-    setPlayingAudio(character.romaji);
-    setPlayedCharacters((prev) => new Set([...prev, character.romaji]));
+    setPlayingAudio(character.pronounce);
+    setPlayedCharacters((prev) => new Set([...prev, character.pronounce]));
 
     // Simulate audio playback
     setTimeout(() => {
