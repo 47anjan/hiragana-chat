@@ -227,8 +227,8 @@ export default function HiraganaChart() {
             {/* Title Section */}
             <div className="text-center lg:text-left">
               <p className="text-gray-600 text-lg max-w-2xl mx-auto lg:mx-0">
-                Master Japanese hiragana with interactive learning, smart
-                practice, and progress tracking
+                Master Japanese hiragana with interactive learning with
+                pronunciation
               </p>
             </div>
           </div>
