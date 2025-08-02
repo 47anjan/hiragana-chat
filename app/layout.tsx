@@ -14,11 +14,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Hiragana Chat - Interactive Japanese Learning",
-    template: "%s | Hiragana Chat",
+    default: "Hiragana Chart - Interactive Japanese Learning",
+    template: "%s | Hiragana Chart",
   },
   description:
-    "Master Japanese hiragana characters with our interactive chat-based learning platform. Practice pronunciation, test your knowledge, and track progress with AI-powered conversations and smart feedback.",
+    "Master Japanese hiragana characters with our interactive chart-based learning platform. Practice pronunciation, test your knowledge, and track progress with AI-powered conversations and smart feedback.",
   keywords: [
     "hiragana",
     "japanese",
@@ -32,28 +32,28 @@ export const metadata: Metadata = {
     "study japanese",
     "nihongo",
     "kana",
-    "ai chat",
+    "ai chart",
     "conversational learning",
   ],
   authors: [{ name: "Joshua", url: "https://twitter.com/47joshuaa" }],
   creator: "Joshua (@47joshuaa)",
-  publisher: "Hiragana Chat",
+  publisher: "Hiragana Chart",
 
   // Open Graph metadata for social media sharing
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://hiragana-chat.com", // Replace with your actual domain
-    siteName: "Hiragana Chat",
-    title: "Hiragana Chat - Interactive Japanese Learning",
+    url: "https://hiragana-chart.com", // Replace with your actual domain
+    siteName: "Hiragana Chart",
+    title: "Hiragana Chart - Interactive Japanese Learning",
     description:
-      "Master Japanese hiragana characters with AI-powered chat conversations, audio pronunciation, and smart progress tracking.",
+      "Master Japanese hiragana characters with AI-powered chart conversations, audio pronunciation, and smart progress tracking.",
     images: [
       {
         url: "/og-image.jpg", // You'll need to create this image
         width: 1200,
         height: 630,
-        alt: "Hiragana Chat - Interactive Japanese Learning Platform",
+        alt: "Hiragana Chart - Interactive Japanese Learning Platform",
       },
     ],
   },
@@ -61,9 +61,9 @@ export const metadata: Metadata = {
   // Twitter Card metadata
   twitter: {
     card: "summary_large_image",
-    title: "Hiragana Chat - Interactive Japanese Learning",
+    title: "Hiragana Chart - Interactive Japanese Learning",
     description:
-      "Master Japanese hiragana characters with AI-powered chat conversations and audio pronunciation.",
+      "Master Japanese hiragana characters with AI-powered chart conversations and audio pronunciation.",
     images: ["/twitter-image.jpg"], // You'll need to create this image
     creator: "@47joshuaa",
   },
@@ -82,7 +82,7 @@ export const metadata: Metadata = {
   },
 
   // App-specific metadata
-  applicationName: "Hiragana Chat",
+  applicationName: "Hiragana Chart",
   category: "Education",
   classification: "Educational Tool",
 
@@ -95,10 +95,10 @@ export const metadata: Metadata = {
 
   // Additional SEO metadata
   alternates: {
-    canonical: "https://hiragana-chat.com", // Replace with your actual domain
+    canonical: "https://hiragana-chart.com", // Replace with your actual domain
     languages: {
-      "en-US": "https://hiragana-chat.com/en",
-      "ja-JP": "https://hiragana-chat.com/ja",
+      "en-US": "https://hiragana-chart.com/en",
+      "ja-JP": "https://hiragana-chart.com/ja",
     },
   },
 
@@ -131,7 +131,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Hiragana Chat",
+    title: "Hiragana Chart",
   },
 
   // Format detection
@@ -161,10 +161,10 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "EducationalApplication",
-              name: "Hiragana Chat",
+              name: "Hiragana Chart",
               description:
-                "Interactive Japanese hiragana learning platform with AI-powered chat conversations, audio pronunciation and progress tracking",
-              url: "https://hiragana-chat.com",
+                "Interactive Japanese hiragana learning platform with AI-powered chart conversations, audio pronunciation and progress tracking",
+              url: "https://hiragana-chart.com",
               applicationCategory: "EducationalApplication",
               operatingSystem: "Web Browser",
               author: {
@@ -185,7 +185,7 @@ export default function RootLayout({
                 name: "Japanese Language - Hiragana",
               },
               featureList: [
-                "AI-powered chat conversations",
+                "AI-powered chart conversations",
                 "Audio pronunciation guide",
                 "Progress tracking",
                 "Interactive hiragana practice",
