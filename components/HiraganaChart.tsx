@@ -12,7 +12,7 @@ interface Character {
   category: string;
 }
 
-export default function EnhancedHiraganaApp() {
+export default function HiraganaChart() {
   // Core state
   const [playingAudio, setPlayingAudio] = useState<string | null>(null);
   const [hoveredCharacter, setHoveredCharacter] = useState<string | null>(null);
@@ -59,7 +59,6 @@ export default function EnhancedHiraganaApp() {
 
     const isPlaying = playingAudio === character.romaji;
     const isHovered = hoveredCharacter === character.romaji;
-    const isMastered = masteredCharacters.has(character.romaji);
 
     const difficultyColors = {
       1: "border-green-200 bg-green-50",
@@ -73,12 +72,12 @@ export default function EnhancedHiraganaApp() {
       <button
         key={character.romaji}
         className={`
-          group relative transition-all duration-300 ease-out cursor-pointer
+          group relative will-change-transform transition-all duration-300 ease-out cursor-pointer
           w-20 h-20
           ${
             isPlaying ? "scale-110 rotate-3" : "hover:scale-105 hover:-rotate-1"
           }
-          ${isMastered ? "ring-2 ring-green-400" : ""}
+        
           ${
             difficultyColors[
               character.difficulty as keyof typeof difficultyColors
@@ -96,30 +95,6 @@ export default function EnhancedHiraganaApp() {
         onMouseEnter={() => setHoveredCharacter(character.romaji)}
         onMouseLeave={() => setHoveredCharacter(null)}
       >
-        {/* Status indicators */}
-        <div className="absolute -top-2 -right-2 flex gap-1">
-          {isPlaying && (
-            <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center animate-pulse">
-              <Volume2 className="w-3 h-3 text-white" />
-            </div>
-          )}
-          {isMastered && (
-            <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
-              <Star className="w-3 h-3 text-white fill-white" />
-            </div>
-          )}
-        </div>
-
-        {/* Difficulty indicator */}
-        <div className="absolute -top-1 -left-1">
-          {Array.from({ length: character.difficulty }, (_, i) => (
-            <div
-              key={i}
-              className="inline-block w-1.5 h-1.5 bg-gray-400 rounded-full mr-0.5"
-            />
-          ))}
-        </div>
-
         <div
           className={`text-xs font-medium text-gray-600 transition-colors ${
             isPlaying ? "text-blue-600" : ""
@@ -129,7 +104,7 @@ export default function EnhancedHiraganaApp() {
         </div>
 
         <div
-          className={`font-japanese transition-all duration-200 text-3xl ${
+          className={`font-japanese will-change-transform transition-all duration-200 text-3xl ${
             isPlaying ? "text-blue-600 scale-110" : "text-gray-800"
           } ${!showHiragana ? "opacity-0" : ""}`}
         >
@@ -151,11 +126,6 @@ export default function EnhancedHiraganaApp() {
       <div className="space-y-8">
         {/* Basic Characters */}
         <section>
-          <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
-            <BookOpen className="w-7 h-7 text-blue-500" />
-            Basic Characters
-          </h2>
-
           <div className="space-y-3">
             {Object.entries(hiraganaData.basic).map(
               ([lineName, characters]) => {
@@ -164,7 +134,7 @@ export default function EnhancedHiraganaApp() {
 
                 return (
                   <div key={lineName} className="flex items-center gap-3">
-                    <div className="bg-blue-100 text-blue-700 px-4 py-2 rounded-xl font-medium min-w-[100px] text-center">
+                    <div className="bg-blue-100 text-blue-700 px-4 py-2 rounded-xl font-medium w-28 h-20 border-2 border-transparent flex items-center justify-center flex-col text-base text-center">
                       {lineName === "n" ? "ん" : lineName.replace("-line", "")}
                     </div>
                     <div className="flex gap-2 flex-wrap">
@@ -185,11 +155,6 @@ export default function EnhancedHiraganaApp() {
 
         {/* Voiced Characters */}
         <section>
-          <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
-            <Volume2 className="w-7 h-7 text-purple-500" />
-            Voiced Characters
-          </h2>
-
           <div className="space-y-3">
             {Object.entries(hiraganaData.voiced).map(
               ([lineName, characters]) => {
@@ -198,7 +163,7 @@ export default function EnhancedHiraganaApp() {
 
                 return (
                   <div key={lineName} className="flex items-center gap-3">
-                    <div className="bg-purple-100 text-purple-700 px-4 py-2 rounded-xl font-medium min-w-[100px] text-center">
+                    <div className="bg-purple-100 text-purple-700 px-4 py-2 rounded-xl font-medium w-28 h-20 border-2 border-transparent flex items-center justify-center flex-col text-base text-center">
                       {lineName.replace("-line", "")}
                     </div>
                     <div className="flex gap-2 flex-wrap">
@@ -221,24 +186,13 @@ export default function EnhancedHiraganaApp() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      <div className="max-w-7xl mx-auto px-6 py-8">
+    <div className="min-h-screen  bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <div className="max-w-6xl mx-auto px-6 py-8">
         {/* Enhanced Header */}
         <header className="mb-12">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             {/* Title Section */}
             <div className="text-center lg:text-left">
-              <div className="flex items-center justify-center lg:justify-start gap-4 mb-4">
-                <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl">
-                  <BookOpen className="w-8 h-8 text-white" />
-                </div>
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  Hiragana Master
-                </h1>
-                <div className="p-3 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl">
-                  <Sparkles className="w-8 h-8 text-white" />
-                </div>
-              </div>
               <p className="text-gray-600 text-lg max-w-2xl mx-auto lg:mx-0">
                 Master Japanese hiragana with interactive learning, smart
                 practice, and progress tracking
