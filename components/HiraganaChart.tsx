@@ -234,7 +234,7 @@ export default function HiraganaChart() {
           </div>
 
           {/* Learning Mode Selector */}
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
               {/* Filters and Controls */}
               <div className="mt-8 bg-white rounded-2xl p-8  border border-slate-200 backdrop-blur-sm">
