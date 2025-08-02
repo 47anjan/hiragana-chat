@@ -163,7 +163,7 @@ export default function RootLayout({
               "@type": "EducationalApplication",
               name: "Hiragana Chart",
               description:
-                "Interactive Japanese hiragana learning platform with AI-powered chart conversations, audio pronunciation and progress tracking",
+                "Interactive Japanese hiragana learning platform with audio pronunciation",
               url: "https://hiragana-chart.com",
               applicationCategory: "EducationalApplication",
               operatingSystem: "Web Browser",
