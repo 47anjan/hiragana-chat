@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Volume2, BookOpen, Sparkles, Star, Brain } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
 import { hiraganaData } from "@/lib/data";
 
 interface Character {
@@ -15,13 +14,7 @@ interface Character {
 export default function HiraganaChart() {
   // Core state
   const [playingAudio, setPlayingAudio] = useState<string | null>(null);
-  const [hoveredCharacter, setHoveredCharacter] = useState<string | null>(null);
-  const [playedCharacters, setPlayedCharacters] = useState<Set<string>>(
-    new Set()
-  );
-  const [masteredCharacters, setMasteredCharacters] = useState<Set<string>>(
-    new Set()
-  );
+
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Enhanced UX state
@@ -29,20 +22,59 @@ export default function HiraganaChart() {
   const [showRomaji, setShowRomaji] = useState(true);
   const [showHiragana, setShowHiragana] = useState(true);
 
+  // Audio ref for cleanup
+  const currentAudioRef = useRef<HTMLAudioElement | null>(null);
+
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 300);
     return () => clearTimeout(timer);
   }, []);
 
-  // Enhanced audio playback
-  const playAudio = (character: Character) => {
-    setPlayingAudio(character.pronounce);
-    setPlayedCharacters((prev) => new Set([...prev, character.pronounce]));
+  // Cleanup audio on unmount
+  useEffect(() => {
+    return () => {
+      if (currentAudioRef.current) {
+        currentAudioRef.current.pause();
+        currentAudioRef.current = null;
+      }
+    };
+  }, []);
 
-    // Simulate audio playback
-    setTimeout(() => {
+  // Enhanced audio playback with actual HTML Audio
+  const playAudio = async (character: Character) => {
+    try {
+      // Stop any currently playing audio
+      if (currentAudioRef.current) {
+        currentAudioRef.current.pause();
+        currentAudioRef.current = null;
+      }
+
+      setPlayingAudio(character.pronounce);
+
+      // Create new audio element
+      const audio = new Audio(character.pronounce);
+      currentAudioRef.current = audio;
+
+      // Handle audio events
+      audio.addEventListener("ended", () => {
+        setPlayingAudio(null);
+        currentAudioRef.current = null;
+      });
+
+      audio.addEventListener("error", (e) => {
+        console.error("Audio error:", e);
+
+        setPlayingAudio(null);
+        currentAudioRef.current = null;
+      });
+
+      // Play the audio
+      await audio.play();
+    } catch (error) {
+      console.error("Error playing audio:", error);
       setPlayingAudio(null);
-    }, 800);
+      currentAudioRef.current = null;
+    }
   };
 
   // Filter characters based on current settings
@@ -57,8 +89,7 @@ export default function HiraganaChart() {
   const renderCharacterCard = (character: Character | null, index: number) => {
     if (!character) return <div key={index} className="w-20 h-20" />;
 
-    const isPlaying = playingAudio === character.romaji;
-    const isHovered = hoveredCharacter === character.romaji;
+    const isPlaying = playingAudio === character.pronounce;
 
     const difficultyColors = {
       1: "border-green-200 bg-green-50",
@@ -74,9 +105,7 @@ export default function HiraganaChart() {
         className={`
           group relative will-change-transform transition-all duration-300 ease-out cursor-pointer
           w-20 h-20
-          ${
-            isPlaying ? "scale-110 rotate-3" : "hover:scale-105 hover:-rotate-1"
-          }
+          
         
           ${
             difficultyColors[
@@ -92,8 +121,6 @@ export default function HiraganaChart() {
           transform: isPlaying ? "scale(1.1) rotate(3deg)" : undefined,
         }}
         onClick={() => playAudio(character)}
-        onMouseEnter={() => setHoveredCharacter(character.romaji)}
-        onMouseLeave={() => setHoveredCharacter(null)}
       >
         <div
           className={`text-xs font-medium text-gray-600 transition-colors ${
@@ -114,7 +141,7 @@ export default function HiraganaChart() {
         {/* Hover effect */}
         <div
           className={`absolute inset-0 rounded-2xl bg-gradient-to-br from-white/20 to-blue-100/30 transition-opacity ${
-            isHovered || isPlaying ? "opacity-100" : "opacity-0"
+            isPlaying ? "opacity-100" : "opacity-0"
           }`}
         />
       </button>
@@ -133,11 +160,11 @@ export default function HiraganaChart() {
                 if (filteredChars.length === 0) return null;
 
                 return (
-                  <div key={lineName} className="flex items-center gap-3">
-                    <div className="bg-blue-100 text-blue-700 px-4 py-2 rounded-xl font-medium w-28 h-20 border-2 border-transparent flex items-center justify-center flex-col text-base text-center">
-                      {lineName === "n" ? "ん" : lineName.replace("-line", "")}
+                  <div key={lineName} className="flex items-center gap-4">
+                    <div className="border-blue-200 bg-blue-50 text-blue-700 px-4 py-2 rounded-xl  w-28 h-20 border-2 flex items-center justify-center font-semibold flex-col text-base text-center shadow-md">
+                      {lineName}
                     </div>
-                    <div className="flex gap-2 flex-wrap">
+                    <div className="flex gap-4 flex-wrap">
                       {characters.map((char, idx) =>
                         char ? (
                           renderCharacterCard(char, idx)
@@ -162,11 +189,11 @@ export default function HiraganaChart() {
                 if (filteredChars.length === 0) return null;
 
                 return (
-                  <div key={lineName} className="flex items-center gap-3">
-                    <div className="bg-purple-100 text-purple-700 px-4 py-2 rounded-xl font-medium w-28 h-20 border-2 border-transparent flex items-center justify-center flex-col text-base text-center">
-                      {lineName.replace("-line", "")}
+                  <div key={lineName} className="flex items-center gap-4">
+                    <div className="border-blue-200 bg-blue-50 text-blue-700 px-4 py-2 rounded-xl  w-28 h-20 border-2 flex items-center justify-center font-semibold flex-col text-base text-center shadow-md">
+                      {lineName}
                     </div>
-                    <div className="flex gap-2 flex-wrap">
+                    <div className="flex gap-4 flex-wrap">
                       {characters.map((char, idx) =>
                         char ? (
                           renderCharacterCard(char, idx)
@@ -186,7 +213,7 @@ export default function HiraganaChart() {
   };
 
   return (
-    <div className="min-h-screen  bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen  bg-gradient-to-br from-blue-50 via-white to-blue-50">
       <div className="max-w-6xl mx-auto px-6 py-8">
         {/* Enhanced Header */}
         <header className="mb-12">
@@ -202,65 +229,140 @@ export default function HiraganaChart() {
 
           {/* Learning Mode Selector */}
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-            {/* Filters and Controls */}
-            <div className="mt-8 bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-              <div className="space-y-6">
-                {/* Character Display Options */}
-                <div>
-                  <h3 className="text-sm font-medium text-gray-700 mb-3">
-                    Select which characters to display:
-                  </h3>
-                  <div className="flex gap-6">
-                    <label className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={showRomaji}
-                        onChange={(e) => setShowRomaji(e.target.checked)}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
-                      />
-                      <span className="text-sm text-gray-700">Romaji</span>
-                    </label>
-                    <label className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={showHiragana}
-                        onChange={(e) => setShowHiragana(e.target.checked)}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
-                      />
-                      <span className="text-sm text-gray-700">Hiragana</span>
-                    </label>
-                  </div>
-                </div>
-
-                {/* Category Filter */}
-                <div>
-                  <h3 className="text-sm font-medium text-gray-700 mb-3">
-                    Select category to display:
-                  </h3>
-                  <div className="flex flex-wrap gap-4">
-                    {[
-                      { value: null, label: "All Categories" },
-                      { value: "vowel", label: "Vowels" },
-                      { value: "consonant", label: "Consonants" },
-                      { value: "special", label: "Special" },
-                      { value: "voiced", label: "Voiced" },
-                    ].map((category) => (
-                      <label
-                        key={category.value || "all"}
-                        className="flex items-center gap-2"
-                      >
-                        <input
-                          type="radio"
-                          name="category"
-                          checked={selectedCategory === category.value}
-                          onChange={() => setSelectedCategory(category.value)}
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
-                        />
-                        <span className="text-sm text-gray-700">
-                          {category.label}
-                        </span>
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+              {/* Filters and Controls */}
+              <div className="mt-8 bg-white rounded-2xl p-8  border border-slate-200 backdrop-blur-sm">
+                <div className="space-y-8">
+                  {/* Display Options Section */}
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-1.5 h-6 bg-gradient-to-b from-blue-500 to-blue-500 rounded-full"></div>
+                      <h3 className="text-lg font-semibold text-slate-800">
+                        Display Options
+                      </h3>
+                    </div>
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      Customize which character representations are visible
+                      during practice
+                    </p>
+                    <div className="grid grid-cols-2 gap-6 mt-6">
+                      <label className="group flex items-center gap-4 p-4 rounded-xl border-2 border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 transition-all duration-200 cursor-pointer">
+                        <div className="relative">
+                          <input
+                            type="checkbox"
+                            checked={showRomaji}
+                            onChange={(e) => setShowRomaji(e.target.checked)}
+                            className="w-5 h-5 text-blue-600 bg-white border-2 border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
+                          />
+                        </div>
+                        <div className="flex-1">
+                          <span className="font-medium text-slate-700 group-hover:text-blue-700 transition-colors">
+                            Romaji
+                          </span>
+                          <div className="text-xs text-slate-500 mt-1">
+                            Latin alphabet representation
+                          </div>
+                        </div>
                       </label>
-                    ))}
+                      <label className="group flex items-center gap-4 p-4 rounded-xl border-2 border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 transition-all duration-200 cursor-pointer">
+                        <div className="relative">
+                          <input
+                            type="checkbox"
+                            checked={showHiragana}
+                            onChange={(e) => setShowHiragana(e.target.checked)}
+                            className="w-5 h-5 text-blue-600 bg-white border-2 border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
+                          />
+                        </div>
+                        <div className="flex-1">
+                          <span className="font-medium text-slate-700 group-hover:text-blue-700 transition-colors">
+                            Hiragana
+                          </span>
+                          <div className="text-xs text-slate-500 mt-1">
+                            Japanese characters
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+
+                  {/* Category Filter Section */}
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-1.5 h-6 bg-gradient-to-b from-blue-500 to-blue-500 rounded-full"></div>
+                      <h3 className="text-lg font-semibold text-slate-800">
+                        Character Categories
+                      </h3>
+                    </div>
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      Focus your practice on specific character groups
+                    </p>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mt-6">
+                      {[
+                        {
+                          value: null,
+                          label: "All Categories",
+                          desc: "Complete set",
+                        },
+                        {
+                          value: "vowel",
+                          label: "Vowels",
+                          desc: "あ い う え お",
+                        },
+                        {
+                          value: "consonant",
+                          label: "Consonants",
+                          desc: "か さ た な...",
+                        },
+                        {
+                          value: "special",
+                          label: "Special",
+                          desc: "ん を つ...",
+                        },
+                        {
+                          value: "voiced",
+                          label: "Voiced",
+                          desc: "が ざ だ ば...",
+                        },
+                      ].map((category) => (
+                        <label
+                          key={category.value || "all"}
+                          className={`group flex flex-col p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer ${
+                            selectedCategory === category.value
+                              ? "border-blue-500 bg-blue-50 shadow-lg shadow-blue-500/10"
+                              : "border-slate-200 hover:border-blue-300 hover:bg-blue-50/50"
+                          }`}
+                        >
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="relative">
+                              <input
+                                type="radio"
+                                name="category"
+                                checked={selectedCategory === category.value}
+                                onChange={() =>
+                                  setSelectedCategory(category.value)
+                                }
+                                className="w-4 h-4 text-blue-600 bg-white border-2 border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
+                              />
+                            </div>
+                            <span
+                              className={`font-medium transition-colors ${
+                                selectedCategory === category.value
+                                  ? "text-blue-700"
+                                  : "text-slate-700 group-hover:text-blue-700"
+                              }`}
+                            >
+                              {category.label}
+                            </span>
+                          </div>
+                          <div className="text-xs text-slate-500 leading-relaxed ml-7">
+                            {category.desc}
+                          </div>
+                        </label>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
