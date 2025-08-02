@@ -50,7 +50,7 @@ export const metadata: Metadata = {
       "Master Japanese hiragana characters with AI-powered chart conversations, audio pronunciation, and smart progress tracking.",
     images: [
       {
-        url: "/og-image.jpg", // You'll need to create this image
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Hiragana Chart - Interactive Japanese Learning Platform",
@@ -63,8 +63,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Hiragana Chart - Interactive Japanese Learning",
     description:
-      "Master Japanese hiragana characters with AI-powered chart conversations and audio pronunciation.",
-    images: ["/twitter-image.jpg"], // You'll need to create this image
+      "Master Japanese hiragana characters with audio pronunciation.",
+    images: ["/twitter-image.jpg"],
     creator: "@47joshuaa",
   },
 
