@@ -87,7 +87,8 @@ export default function HiraganaChart() {
   };
 
   const renderCharacterCard = (character: Character | null, index: number) => {
-    if (!character) return <div key={index} className="w-20 h-24" />;
+    if (!character)
+      return <div key={index} className="w-20 h-20 sm:w-24 sm:h-24" />;
 
     const isPlaying = playingAudio === character.pronounce;
 
