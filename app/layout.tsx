@@ -185,9 +185,7 @@ export default function RootLayout({
                 name: "Japanese Language - Hiragana",
               },
               featureList: [
-                "AI-powered chart conversations",
                 "Audio pronunciation guide",
-                "Progress tracking",
                 "Interactive hiragana practice",
               ],
             }),
