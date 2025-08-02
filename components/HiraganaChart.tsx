@@ -160,11 +160,14 @@ export default function HiraganaChart() {
                 if (filteredChars.length === 0) return null;
 
                 return (
-                  <div key={lineName} className="flex items-center gap-4">
+                  <div
+                    key={lineName}
+                    className="flex flex-col sm:flex-row  items-center gap-5"
+                  >
                     <div className="border-blue-200 bg-blue-50 text-blue-700 px-4 py-2 rounded-xl  w-28 h-20 border-2 flex items-center justify-center font-semibold flex-col text-base text-center shadow-md">
                       {lineName}
                     </div>
-                    <div className="flex gap-4 flex-wrap">
+                    <div className="flex gap-4 items-center justify-center sm:justify-start flex-wrap mb-5 sm:mb-0">
                       {characters.map((char, idx) =>
                         char ? (
                           renderCharacterCard(char, idx)
@@ -189,11 +192,14 @@ export default function HiraganaChart() {
                 if (filteredChars.length === 0) return null;
 
                 return (
-                  <div key={lineName} className="flex items-center gap-4">
+                  <div
+                    key={lineName}
+                    className="flex flex-col sm:flex-row  items-center gap-4"
+                  >
                     <div className="border-blue-200 bg-blue-50 text-blue-700 px-4 py-2 rounded-xl  w-28 h-20 border-2 flex items-center justify-center font-semibold flex-col text-base text-center shadow-md">
                       {lineName}
                     </div>
-                    <div className="flex gap-4 flex-wrap">
+                    <div className="flex gap-4 items-center justify-center sm:justify-start flex-wrap mb-5 sm:mb-0">
                       {characters.map((char, idx) =>
                         char ? (
                           renderCharacterCard(char, idx)
@@ -213,7 +219,7 @@ export default function HiraganaChart() {
   };
 
   return (
-    <div className="min-h-screen  bg-gradient-to-br from-blue-50 via-white to-blue-50">
+    <div className="min-h-screen flex   bg-gradient-to-br from-blue-50 via-white to-blue-50">
       <div className="max-w-6xl mx-auto px-6 py-8">
         {/* Enhanced Header */}
         <header className="mb-12">
@@ -245,7 +251,7 @@ export default function HiraganaChart() {
                       Customize which character representations are visible
                       during practice
                     </p>
-                    <div className="grid grid-cols-2 gap-6 mt-6">
+                    <div className="grid sm:grid-cols-2 gap-6 mt-6">
                       <label className="group flex items-center gap-4 p-4 rounded-xl border-2 border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 transition-all duration-200 cursor-pointer">
                         <div className="relative">
                           <input
@@ -299,7 +305,7 @@ export default function HiraganaChart() {
                     <p className="text-sm text-slate-600 leading-relaxed">
                       Focus your practice on specific character groups
                     </p>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mt-6">
+                    <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mt-6">
                       {[
                         {
                           value: null,
@@ -378,7 +384,10 @@ export default function HiraganaChart() {
         {/* Enhanced Footer */}
         <footer className="mt-16 pt-8 border-t border-gray-200">
           <div className="mt-8 text-center text-sm text-gray-500">
-            <p>Keep practicing daily for the best results • がんばって！</p>
+            <p className="text-base font-medium">
+              Made by Joshua • Keep practicing daily for the best results •
+              がんばって！
+            </p>
           </div>
         </footer>
       </div>
