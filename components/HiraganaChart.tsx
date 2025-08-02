@@ -87,7 +87,7 @@ export default function HiraganaChart() {
   };
 
   const renderCharacterCard = (character: Character | null, index: number) => {
-    if (!character) return <div key={index} className="w-20 h-20" />;
+    if (!character) return <div key={index} className="w-20 h-24" />;
 
     const isPlaying = playingAudio === character.pronounce;
 
@@ -104,7 +104,7 @@ export default function HiraganaChart() {
         key={character.romaji}
         className={`
           group relative will-change-transform transition-all duration-300 ease-out cursor-pointer
-          w-20 h-20
+          w-20 h-20 sm:w-24 sm:h-24
           
         
           ${
@@ -164,7 +164,7 @@ export default function HiraganaChart() {
                     key={lineName}
                     className="flex flex-col sm:flex-row  items-center gap-5"
                   >
-                    <div className="border-blue-200 bg-blue-50 text-blue-700 px-4 py-2 rounded-xl  w-28 h-20 border-2 flex items-center justify-center font-semibold flex-col text-base text-center shadow-md">
+                    <div className="border-blue-200 bg-blue-50 text-blue-700 px-4 py-2 rounded-xl  w-28 h-24 border-2 flex items-center justify-center font-semibold flex-col text-base text-center shadow-md">
                       {lineName}
                     </div>
                     <div className="flex gap-4 items-center justify-center sm:justify-start flex-wrap mb-5 sm:mb-0">
@@ -172,7 +172,7 @@ export default function HiraganaChart() {
                         char ? (
                           renderCharacterCard(char, idx)
                         ) : (
-                          <div key={idx} className="w-20 h-20" />
+                          <div key={idx} className="w-20 h-24" />
                         )
                       )}
                     </div>
@@ -196,7 +196,7 @@ export default function HiraganaChart() {
                     key={lineName}
                     className="flex flex-col sm:flex-row  items-center gap-4"
                   >
-                    <div className="border-blue-200 bg-blue-50 text-blue-700 px-4 py-2 rounded-xl  w-28 h-20 border-2 flex items-center justify-center font-semibold flex-col text-base text-center shadow-md">
+                    <div className="border-blue-200 bg-blue-50 text-blue-700 px-4 py-2 rounded-xl  w-28 h-24 border-2 flex items-center justify-center font-semibold flex-col text-base text-center shadow-md">
                       {lineName}
                     </div>
                     <div className="flex gap-4 items-center justify-center sm:justify-start flex-wrap mb-5 sm:mb-0">
@@ -204,7 +204,7 @@ export default function HiraganaChart() {
                         char ? (
                           renderCharacterCard(char, idx)
                         ) : (
-                          <div key={idx} className="w-20 h-20" />
+                          <div key={idx} className="w-20 h-24" />
                         )
                       )}
                     </div>
