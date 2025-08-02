@@ -150,7 +150,7 @@ export default function HiraganaChart() {
 
   const renderCharacterGrid = () => {
     return (
-      <div className="space-y-8">
+      <div className="space-y-14">
         {/* Basic Characters */}
         <section>
           <div className="space-y-3">
