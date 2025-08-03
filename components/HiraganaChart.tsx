@@ -173,7 +173,10 @@ export default function HiraganaChart() {
                         char ? (
                           renderCharacterCard(char, idx)
                         ) : (
-                          <div key={idx} className="w-20 h-24" />
+                          <div
+                            key={idx}
+                            className="w-20 h-20 sm:w-24 sm:h-24"
+                          />
                         )
                       )}
                     </div>
@@ -205,7 +208,10 @@ export default function HiraganaChart() {
                         char ? (
                           renderCharacterCard(char, idx)
                         ) : (
-                          <div key={idx} className="w-20 h-24" />
+                          <div
+                            key={idx}
+                            className="w-20 h-20 sm:w-24 sm:h-24"
+                          />
                         )
                       )}
                     </div>
